@@ -3,6 +3,7 @@ from pytube import YouTube
 import requests
 import os
 import asyncio
+from moviepy.editor import VideoFileClip
 
 # Replace 'YOUR_API_ID', 'YOUR_API_HASH', and 'YOUR_BOT_TOKEN' with your actual values
 API_ID = '25033101'
@@ -45,7 +46,6 @@ async def process_youtube_link(client, message):
         video = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
         #video = yt.streams.filter(progressive=True, file_extension='mp4').first()
         video.download(filename='downloaded_video.mp4')
-        
 
         # Download the thumbnail
         thumbnail_url = yt.thumbnail_url
@@ -53,16 +53,26 @@ async def process_youtube_link(client, message):
         with open('thumbnail.jpg', 'wb') as f:
             f.write(thumbnail_response.content)
 
-        # Extract video metadata
-        video_height = video.resolution.split('p')[0]
-        video_width = video.resolution.split('x')[0]
-        video_duration = yt.length
+        # Get video duration, height, and width using moviepy
+        clip = VideoFileClip('downloaded_video.mp4')
+        duration = int(clip.duration)
+        height = int(clip.size[1])
+        width = int(clip.size[0])
+        clip.close()
 
         # Uploading text message
         uploading_msg = await message.reply_text("Uploading video...")
 
         # Send the video file to the user with the thumbnail as caption
-        sent_message = await app.send_video(message.chat.id, video=open('downloaded_video.mp4', 'rb'), caption=yt.title, thumb=open('thumbnail.jpg', 'rb'), duration=video_duration, width=video_width, height=video_height, supports_streaming=True)
+        sent_message = await app.send_video(
+            message.chat.id, 
+            video=open('downloaded_video.mp4', 'rb'), 
+            caption=yt.title,
+            duration=duration,
+            height=height,
+            width=width,
+            thumb=open('thumbnail.jpg', 'rb')
+        )
 
         # Delay for a few seconds and delete downloading and uploading
         await downloading_msg.delete()
