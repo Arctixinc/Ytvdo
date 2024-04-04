@@ -1,26 +1,24 @@
-# ©️ LISA-KOREA | @LISA_FAN_LK | NT_BOT_CHANNEL
-
 from pyrogram import Client, filters
 from pytube import YouTube
 import asyncio
 
 # Replace 'YOUR_API_ID', 'YOUR_API_HASH', and 'YOUR_BOT_TOKEN' with your actual values
-API_ID = ''
-API_HASH = ''
-BOT_TOKEN = ''
+API_ID = '25033101'
+API_HASH = 'd983e07db3fe330a1fd134e61604e11d'
+BOT_TOKEN = '6285135839:AAE5savazJeNxwkAnGW3mW9l-4hUPLLoUds'
 
 # Create a Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 # Start command handler
 @app.on_message(filters.command("start"))
-def start(client, message):
+async def start(client, message):
     user = message.from_user
-    message.reply_text(f"Hello, @{user.username}!\n\nSend me the YouTube link of the video you want to upload.")
+    await message.reply_text(f"Hello, @{user.username}!\n\nSend me the YouTube link of the video you want to upload.")
 
 # Help command handler
 @app.on_message(filters.command("help"))
-def help(client, message):
+async def help(client, message):
     help_text = """
     Welcome to the YouTube Video Uploader Bot!
 
@@ -30,7 +28,7 @@ Enjoy using the bot!
 
    ©️ Channel : @NT_BOT_CHANNEL
     """
-    message.reply_text(help_text)
+    await message.reply_text(help_text)
 
 # Message handler for processing YouTube links
 @app.on_message(filters.regex(r'^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+'))
@@ -42,7 +40,8 @@ async def process_youtube_link(client, message):
 
         # Download the YouTube video
         yt = YouTube(youtube_link)
-        video = yt.streams.filter(progressive=True, file_extension='mp4').first()
+        #video = yt.streams.filter(progressive=True, file_extension='mp4').first()
+        video = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
         video.download(filename='downloaded_video.mp4')
 
         # Uploading text message
@@ -56,7 +55,7 @@ async def process_youtube_link(client, message):
         await uploading_msg.delete()
         await asyncio.sleep(2)
 
-         # Delete downloading and uploading text messages
+        # Delete downloading and uploading text messages
         await app.delete_messages(message.chat.id, [downloading_msg.message_id, uploading_msg.message_id])
     except Exception as e:
         error_text = 'OWNER : @LISA_FAN_LK 💕\nFor the List of Telegram Bots'
