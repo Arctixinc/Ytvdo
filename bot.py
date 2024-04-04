@@ -6,9 +6,9 @@ import asyncio
 from moviepy.editor import VideoFileClip
 
 # Replace 'YOUR_API_ID', 'YOUR_API_HASH', and 'YOUR_BOT_TOKEN' with your actual values
-API_ID = '25033101'
-API_HASH = 'd983e07db3fe330a1fd134e61604e11d'
-BOT_TOKEN = '6285135839:AAE5savazJeNxwkAnGW3mW9l-4hUPLLoUds'
+API_ID = '16625410'
+API_HASH = '510fc67d35935ca8d2e1eac4a09d83db'
+BOT_TOKEN = '5847447231:AAEg6CpQdP1dVATizrT8EzwRrSzFj6tYba4'
 
 # Create a Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
