@@ -1,7 +1,6 @@
 import subprocess
 import os
 import math
-from Arctix import LOGGER
 
 def split_video(input_video, folder_path, first_chunk_size_mb=2088):
     try:
@@ -38,8 +37,8 @@ def split_video(input_video, folder_path, first_chunk_size_mb=2088):
 
         # Delete the original video file
         os.remove(input_video)
-        LOGGER.info("Original video deleted after successful splitting.")
+        #LOGGER.info("Original video deleted after successful splitting.")
     except subprocess.CalledProcessError as e:
-        LOGGER.error(f"Error splitting video: {e}")
+        #LOGGER.error(f"Error splitting video: {e}")
     except Exception as e:
-        LOGGER.error(f"Error splitting video and deleting original: {e}")
+        #LOGGER.error(f"Error splitting video and deleting original: {e}")
