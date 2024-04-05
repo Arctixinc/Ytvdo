@@ -1,5 +1,4 @@
 import os
-from Arctix import Arctix as app
 from pyrogram import Client
 
 async def send_screenshots(chat_id, screenshot_directory, progress=None):
