@@ -23,7 +23,7 @@ def split_video(input_video, folder_path, first_chunk_size_mb=2088):
                 "-c:v", "copy", "-c:a", "copy", output_file
             ]
             subprocess.run(split_cmd, check=True)  # Added check=True for error checking
-            LOGGER.info(f"Chunk {i + 1}/{num_full_chunks} created.")
+            print(f"Chunk {i + 1}/{num_full_chunks} created.")
             start_time += first_chunk_size_mb
 
         if num_remaining_chunks > 0:
@@ -33,12 +33,12 @@ def split_video(input_video, folder_path, first_chunk_size_mb=2088):
                 "-c:v", "copy", "-c:a", "copy", output_file
             ]
             subprocess.run(split_cmd, check=True)  # Added check=True for error checking
-            LOGGER.info(f"Chunk {num_full_chunks + 1}/{num_full_chunks + 1} created.")
+            print(f"Chunk {num_full_chunks + 1}/{num_full_chunks + 1} created.")
 
         # Delete the original video file
         os.remove(input_video)
-        #LOGGER.info("Original video deleted after successful splitting.")
+        print("Original video deleted after successful splitting.")
     except subprocess.CalledProcessError as e:
-        #LOGGER.error(f"Error splitting video: {e}")
+        print(f"Error splitting video: {e}")
     except Exception as e:
-        #LOGGER.error(f"Error splitting video and deleting original: {e}")
+        print(f"Error splitting video and deleting original: {e}")
