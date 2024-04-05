@@ -1,0 +1,14 @@
+{
+  "name": "github-heroku-bot",
+  "description": "Telegram Bot using Pyrogram",
+  "repository": "https://github.com/Arctixinc/Ytvdo",
+  "stack": "container",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}
