@@ -128,7 +128,9 @@ def terabox(url):
             raise DirectDownloadLinkException(e)
 
     # Modify the link
-    details['contents'][0]['url'] = details['contents'][0]['url'].replace("d.1024tera.com", "d3.terabox.app")
+    details['contents'][0]['url'] = details['contents'][0]['url'].replace("d.1024tera.com", "d3.terabox.app").replace("&reg", "%26reg")
+
+    
 
     file_name = f"[{details['title']}]({url})"
     file_size = get_readable_file_size(details['total_size'])
